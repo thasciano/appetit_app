@@ -12,6 +12,7 @@ class DetalhesPedidoPage extends StatefulWidget {
 }
 
 class _DetalhesPedidoPageState extends State<DetalhesPedidoPage> {
+  String tag;
 
   List<String> _texts = [
     "Cuscuz de milho",
@@ -182,7 +183,7 @@ class _DetalhesPedidoPageState extends State<DetalhesPedidoPage> {
                   flex: 1,
                   child: RaisedButton(
                     onPressed: (){
-                      pop(context);
+                      pop(context, 1);
                     },
                     shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(2.0)),
                     color: Constants.primary_color,

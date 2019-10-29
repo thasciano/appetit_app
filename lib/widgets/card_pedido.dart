@@ -11,16 +11,17 @@ class CardPedido extends StatelessWidget {
   String titulo;
   String subTitulo;
   String valor;
+  bool selecionado;
   Function onPress;
   bool hasTrailing;
 
-  CardPedido(this.imagem, this.titulo, this.subTitulo, this.valor, this.hasTrailing, this.onPress);
+  CardPedido(this.imagem, this.titulo, this.subTitulo, this.valor, this.hasTrailing, this.selecionado, this.onPress);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.only(bottom: 8),
-      color: Colors.white,
+      color: selecionado ? Constants.primary_color : Colors.white,
       elevation: 1.0,
       child: ListTile(
         onTap: onPress,
@@ -30,7 +31,7 @@ class CardPedido extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 16, color: Constants.secondary_text, )) : null,
-        trailing: hasTrailing ? Text(valor,
+            trailing: valor == null ? null : hasTrailing ? Text(valor,
             textAlign: TextAlign.end,
             style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)) : null,
       ),

@@ -47,15 +47,14 @@ class _LoginPageState extends State<LoginPage> {
               child: Image.asset("assets/images/logo.png", width: 112, height: 80)),
           Container(
             margin: EdgeInsets.only(top:72),
-            alignment: Alignment.center,
-            child: Text("Seja bem-vindo!",
+            child: Text("Seja bem-vindo!", textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 24, color: Constants.primary_color)),
           ),
           Container(
               margin: EdgeInsets.only(top:16),
-              child: Center(
-                child: Text("Nós sabemos a importância de estar sempre de barriga cheia e o quanto isso pode ajudar no seu dia.", textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16, color: Color.fromRGBO(0,0,0,0.56))),)),
+              child: Text("Nós sabemos a importância de estar sempre de barriga cheia e o quanto isso pode ajudar no seu dia.", textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Constants.secondary_text))),
+
           _formulario(context),
 
         ],

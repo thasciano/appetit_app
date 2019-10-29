@@ -75,7 +75,7 @@ class HistoricoPedidosPage extends StatelessWidget {
                           "assets/images/logo.png",
                           "Hanna Montana",
                           "1x Cuscuz com calabresa, 1x Cuscuz com calabresa, 1x Cuscuz com calabresa ",
-                          "R\$ 125,16", false, null);
+                          "R\$ 125,16", false, false, null);
                     }),
 
                 Container(
@@ -94,7 +94,7 @@ class HistoricoPedidosPage extends StatelessWidget {
                           "assets/images/logo.png",
                           "Hanna Montana",
                           "1x Cuscuz com calabresa, 1x Cuscuz com calabresa, 1x Cuscuz com calabresa ",
-                          "R\$ 125,16", false, null);
+                          "R\$ 125,16", false, false, null);
                     }),
               ],
             ),
