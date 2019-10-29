@@ -95,10 +95,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                     valueColor: AlwaysStoppedAnimation<Color>(Constants.primary_color),
                   ),
 
-
-                  if(page==1) _pageItensPedido(),
-
-
+                  _getPage(),
 
                 ],
               ),
@@ -157,6 +154,13 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
     );
   }
 
+  Widget _getPage(){
+    switch(page){
+      case 1: return _pageItensPedido();
+      case 2: return _pageClientes();
+    }
+  }
+
   Widget _pageItensPedido() {
     return Column(
       children: <Widget>[
@@ -191,7 +195,6 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                         "Cuscuz Completo",
                         "Milho ou arroz",
                         "R\$ 125,16", true, false, () async {
-                      final resultData = push(context, DetalhesPedidoPage()) as Future<int>;
 
                       return push(context, DetalhesPedidoPage());
                     }),
@@ -229,5 +232,48 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
     );
   }
 
+  Widget _pageClientes() {
+    return Column(
+      children: <Widget>[
+        TextFormField(
+          decoration: InputDecoration(
+            labelText: 'Digite a sua busca aqui',
+            fillColor: Colors.orange,
+            prefixIcon: Icon(Icons.search, color: Constants.primary_color,),
+          ),
+        ),
+
+        Container(
+          margin: EdgeInsets.only(bottom: 16, top:24),
+          child: Text("Meus Clientes",
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
+        ),
+
+        Wrap(
+          children: <Widget>[
+            ListView.builder(
+                itemCount: 3,
+                padding: EdgeInsets.all(0.0),
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                itemBuilder: (BuildContext context, int index){
+                  return CardPedido(
+                      "assets/images/logo.png",
+                      "Justine Marshall",
+                      null,
+                      null, true, false, () async {
+                        setState(() {
+                          bottonOptionsPage = true;
+                          marginBotton = 56.0;
+                        });
+                        return true;
+                      });
+                }),
+          ],
+        ),
+      ],
+    );
+  }
 
 }
