@@ -1,5 +1,6 @@
 import 'package:appetit_app/utils/Constants.dart';
 import 'package:appetit_app/utils/nav.dart';
+import 'package:appetit_app/widgets/card_pedido.dart';
 import 'package:flutter/material.dart';
 
 ///
@@ -96,7 +97,11 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index){
-                      return _cardPedidos();
+                      return CardPedido(
+                          "assets/images/logo.png",
+                          "Cuscuz Completo",
+                          "Milho ou arroz",
+                          "R\$ 125,16", true, (){ /*push(context, DetalhesPedidoPage() )*/});
                     }),
               ],
             ),
@@ -116,7 +121,11 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index){
-                      return _cardPedidos();
+                      return CardPedido(
+                          "assets/images/logo.png",
+                          "Pão caseiro",
+                          null,
+                          "R\$ 125,16", true, (){ /*push(context, DetalhesPedidoPage() )*/});
                     }),
               ],
             ),
@@ -125,25 +134,4 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
       ],
     );
   }
-
-  Widget _cardPedidos() {
-    return Card(
-      margin: EdgeInsets.only(bottom: 8),
-      color: Colors.white,
-      elevation: 1.0,
-      child: ListTile(
-        onTap: (){
-//            push(context, DetalhesPedidoPage());
-        },
-        leading: Image.asset("assets/images/logo.png", width: 40, height: 40,),
-        title: Text("Cuscuz Completo",
-            style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
-        subtitle: Text("Milho ou arroz",
-            style: TextStyle(fontSize: 16, color: Constants.secondary_text, )),
-        trailing: Text("R\$ 2,25",
-            style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600 )),
-      ),
-    );
-  }
-
 }

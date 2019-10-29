@@ -1,5 +1,6 @@
 import 'package:appetit_app/utils/Constants.dart';
 import 'package:appetit_app/utils/nav.dart';
+import 'package:appetit_app/widgets/card_pedido.dart';
 import 'package:flutter/material.dart';
 
 import 'novo_pedido_page.dart';
@@ -70,7 +71,11 @@ class HistoricoPedidosPage extends StatelessWidget {
                     padding: EdgeInsets.all(0.0),
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index){
-                      return _cardPedidos();
+                      return CardPedido(
+                          "assets/images/logo.png",
+                          "Hanna Montana",
+                          "1x Cuscuz com calabresa, 1x Cuscuz com calabresa, 1x Cuscuz com calabresa ",
+                          "R\$ 125,16", false, null);
                     }),
 
                 Container(
@@ -85,7 +90,11 @@ class HistoricoPedidosPage extends StatelessWidget {
                     padding: EdgeInsets.all(0.0),
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index){
-                      return _cardPedidos();
+                      return CardPedido(
+                          "assets/images/logo.png",
+                          "Hanna Montana",
+                          "1x Cuscuz com calabresa, 1x Cuscuz com calabresa, 1x Cuscuz com calabresa ",
+                          "R\$ 125,16", false, null);
                     }),
               ],
             ),
@@ -94,38 +103,5 @@ class HistoricoPedidosPage extends StatelessWidget {
       ],
     );
   }
-
-  Widget _cardPedidos() {
-    return Card(
-      margin: EdgeInsets.only(bottom: 8),
-      color: Colors.white,
-      elevation: 1.0,
-      child: ListTile(
-        leading: Image.asset("assets/images/logo.png", width: 40, height: 40,),
-        title: Row(
-          children: <Widget>[
-            Expanded(
-              flex: 3,
-              child: Text("Hanna Montana",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text("R\$ 125,16",
-                  textAlign: TextAlign.end,
-                  style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
-            )
-          ],
-        ),
-        subtitle: Text("1x Cuscuz com calabresa, 1x Cuscuz com calabresa, 1x Cuscuz com calabresa ",
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 16, color: Constants.secondary_text, )),
-      ),
-    );
-  }
-
 
 }
