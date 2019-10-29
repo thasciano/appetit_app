@@ -1,3 +1,4 @@
+import 'package:appetit_app/pages/historico_pedidos_page.dart';
 import 'package:appetit_app/utils/Constants.dart';
 import 'package:appetit_app/utils/nav.dart';
 import 'package:appetit_app/widgets/orange_button.dart';
@@ -103,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
             margin: EdgeInsets.only(top:40),
             width: MediaQuery.of(context).size.width,
             child: OrangeButton('ENTRAR', Constants.primary_color, (){
-//              pushReplacement(context, HistoricoPedidoPage());
+              pushReplacement(context, HistoricoPedidosPage());
             }),
           ),
         ],
