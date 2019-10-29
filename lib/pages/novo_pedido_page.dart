@@ -1,3 +1,4 @@
+import 'package:appetit_app/pages/detalhes_pedido_page.dart';
 import 'package:appetit_app/utils/Constants.dart';
 import 'package:appetit_app/utils/nav.dart';
 import 'package:appetit_app/widgets/card_pedido.dart';
@@ -101,7 +102,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                           "assets/images/logo.png",
                           "Cuscuz Completo",
                           "Milho ou arroz",
-                          "R\$ 125,16", true, (){ /*push(context, DetalhesPedidoPage() )*/});
+                          "R\$ 125,16", true, (){ return push(context, DetalhesPedidoPage()); });
                     }),
               ],
             ),
@@ -125,7 +126,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                           "assets/images/logo.png",
                           "Pão caseiro",
                           null,
-                          "R\$ 125,16", true, (){ /*push(context, DetalhesPedidoPage() )*/});
+                          "R\$ 125,16", true, (){ return push(context, DetalhesPedidoPage()); });
                     }),
               ],
             ),
