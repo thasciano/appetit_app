@@ -5,6 +5,7 @@ import 'package:appetit_app/utils/nav.dart';
 import 'package:appetit_app/widgets/card_pedido.dart';
 import 'package:appetit_app/widgets/orange_button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 ///
 /// Created by Thasciano Carvalho on 29/10/2019.
@@ -21,6 +22,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
   bool bottonOptionsPage = true;
   double marginBotton = 0.0;
   int _clientePagou = 0;
+  DateTime dt = null;
 
   @override
   Widget build(BuildContext context) {
@@ -168,8 +170,8 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
 
   Widget _pageItensPedido() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-
         TextFormField(
           decoration: InputDecoration(
             labelText: 'Digite a sua busca aqui',
@@ -181,7 +183,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
         Container(
           margin: EdgeInsets.only(bottom: 16, top:24),
           child: Text("Cuscuz",
-              textAlign: TextAlign.start,
+              textAlign: TextAlign.left,
               style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
         ),
 
@@ -332,15 +334,18 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
           color: Colors.white,
           child: ListTile(
               leading: Icon(Icons.calendar_today, size: 20, color: Constants.primary_text,),
-              title: Text("Selecione uma data"),
+              title: Text(dt!=null ? DateFormat('dd/MM/yyyy').format(dt) : "Selecione uma data"),
               trailing: Icon(Icons.arrow_forward_ios, color: Constants.primary_color,),
             onTap: () async {
-//              final DateTime picked = await showDatePicker(
-//                  context: context,
-//                  initialDate: DateTime.now(),
-//                  firstDate: new DateTime(1999),
-//                  lastDate: new DateTime.now(),
-//              );
+              final DateTime picked = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: new DateTime(1999),
+                  lastDate: new DateTime.now(),
+              );
+              setState(() {
+                dt = picked;
+              });
             },
           ),
         ),
