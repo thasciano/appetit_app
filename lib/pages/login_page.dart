@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
           color: Constants.primary_color
       ));
 
+  /// Função para alterar a variavel que mostra a senha.
   void _showPassword() {
     setState(() {
       obscureText = !obscureText;
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
             child: OrangeButton('ENTRAR', 20.0,
                 (email.isNotEmpty && password.isNotEmpty) ? Constants.primary_color : Constants.primary_color_opacite,
                     (){
-                  if (_formKey.currentState.validate()) pushReplacement(context, HistoricoPedidosPage());
+                  if (_formKey.currentState.validate()) push(context, HistoricoPedidosPage(), true);
                 }),
           ),
         ],
@@ -150,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     // Clean up the controller when the Widget is disposed
     _textPasswordController.dispose();
+    _textEmailController.dispose();
     super.dispose();
   }
 

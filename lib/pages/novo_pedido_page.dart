@@ -203,7 +203,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                         "Milho ou arroz",
                         "R\$ 125,16", true, false, () async {
 
-                      return push(context, DetalhesPedidoPage());
+                      return push(context, DetalhesPedidoPage(), false);
                     }),
                   );
                 }),
@@ -231,7 +231,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                       "assets/images/logo.png",
                       "Pão caseiro",
                       null,
-                      "R\$ 125,16", true, false, (){ return push(context, DetalhesPedidoPage()); });
+                      "R\$ 125,16", true, false, (){ return push(context, DetalhesPedidoPage(), false); });
                 }),
           ],
         ),
@@ -354,7 +354,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
           width: MediaQuery.of(context).size.width,
           child: OrangeButton('FINALIZAR PEDIDO', 14, Constants.primary_color, (){
             setState(() {
-              push(context, FinalizarPedidoPage());
+              push(context, FinalizarPedidoPage(), false);
             });
           }),
         ),

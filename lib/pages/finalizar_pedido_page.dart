@@ -26,14 +26,14 @@ class FinalizarPedidoPage extends StatelessWidget {
                 margin: EdgeInsets.only(top:84),
                 width: MediaQuery.of(context).size.width,
                 child: OrangeButton('FAZER UM NOVO PEDIDO', 14.0, Constants.primary_color, (){
-                  pushReplacement(context, NovoPedidoPage());
+                  push(context, NovoPedidoPage(), true);
                 }),
               ),
               Container(
                 margin: EdgeInsets.only(top:16),
                 width: MediaQuery.of(context).size.width,
                 child: OrangeButton('VOLTAR PARA PÁGINA INICIAL', 14.0, Constants.verde, (){
-                  pushReplacement(context, HistoricoPedidosPage());
+                  push(context, HistoricoPedidosPage(), true);
                 }),
               ),
             ],

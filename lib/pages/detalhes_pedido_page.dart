@@ -74,7 +74,7 @@ class _DetalhesPedidoPageState extends State<DetalhesPedidoPage> {
                       color: Colors.white,
                       child: ListTile(
                         onTap: (){
-                          push(context, DetalhesPedidoPage());
+                          push(context, DetalhesPedidoPage(), false);
                         },
                         leading: Image.asset("assets/images/logo.png", width: 40, height: 40,),
                         title: Text("Cuscuz Completo",

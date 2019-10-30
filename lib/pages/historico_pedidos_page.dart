@@ -36,7 +36,7 @@ class HistoricoPedidosPage extends StatelessWidget {
 
             GestureDetector(
                 onTap: (){
-                  push(context, NovoPedidoPage());
+                  push(context, NovoPedidoPage(), false);
                 },
                 child: Card(
                   margin: EdgeInsets.symmetric(vertical: 24),
