@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:appetit_app/domain/models/cliente.dart';
 import 'package:appetit_app/pages/detalhes_pedido_page.dart';
 import 'package:appetit_app/pages/finalizar_pedido_page.dart';
 import 'package:appetit_app/utils/Constants.dart';
@@ -259,28 +262,46 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
 
         Wrap(
           children: <Widget>[
-            ListView.builder(
-                itemCount: 3,
-                padding: EdgeInsets.all(0.0),
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index){
-                  return CardPedido(
-                      "assets/images/logo.png",
-                      "Justine Marshall",
-                      null,
-                      null, true, false, () async {
-                    setState(() {
-                      bottonOptionsPage = true;
-                      marginBotton = 56.0;
-                    });
-                    return true;
-                  });
+            FutureBuilder(
+                future: DefaultAssetBundle.of(context).loadString('assets/json/clientes.json'),
+                builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                    final data = json.decode(snapshot.data);
+                    var clientes = data.map<Cliente>((json) => Cliente.fromJson(json)).toList();
+                    return _listaClientes(clientes);
+                  } else if (snapshot.hasError) {
+                    return Text("Erro ao converter!");
+                  }else {
+                    return CircularProgressIndicator();
+                  }
                 }),
+
           ],
         ),
       ],
     );
+  }
+
+  ListView _listaClientes(List<Cliente> clientes ) {
+    return ListView.builder(
+        itemCount: clientes.length,
+        padding: EdgeInsets.all(0.0),
+        shrinkWrap: true,
+        physics: ClampingScrollPhysics(),
+        itemBuilder: (BuildContext context, int index){
+          return CardPedido(
+              clientes[index].imagem,
+              clientes[index].nome,
+              null,
+              null, true, false, () async {
+            setState(() {
+
+              bottonOptionsPage = true;
+              marginBotton = 56.0;
+            });
+            return true;
+          });
+        });
   }
 
   Widget _pageFinalizarPedido() {
@@ -333,15 +354,15 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
         Card(
           color: Colors.white,
           child: ListTile(
-              leading: Icon(Icons.calendar_today, size: 20, color: Constants.primary_text,),
-              title: Text(dt!=null ? DateFormat('dd/MM/yyyy').format(dt) : "Selecione uma data"),
-              trailing: Icon(Icons.arrow_forward_ios, color: Constants.primary_color,),
+            leading: Icon(Icons.calendar_today, size: 20, color: Constants.primary_text,),
+            title: Text(dt!=null ? DateFormat('dd/MM/yyyy').format(dt) : "Selecione uma data"),
+            trailing: Icon(Icons.arrow_forward_ios, color: Constants.primary_color,),
             onTap: () async {
               final DateTime picked = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: new DateTime(1999),
-                  lastDate: new DateTime.now(),
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: new DateTime(1999),
+                lastDate: new DateTime.now(),
               );
               setState(() {
                 dt = picked;

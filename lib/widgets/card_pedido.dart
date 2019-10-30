@@ -25,7 +25,7 @@ class CardPedido extends StatelessWidget {
       elevation: 1.0,
       child: ListTile(
         onTap: onPress,
-        leading: Image.asset(imagem, width: 40, height: 40,),
+        leading: Image.network(imagem, width: 40, height: 40,),
         title: _titulo(),
         subtitle: subTitulo != null? Text(subTitulo,
             maxLines: 1,
