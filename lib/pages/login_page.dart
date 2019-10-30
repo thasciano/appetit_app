@@ -15,7 +15,26 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  String email = "";
+  String password = "";
   bool obscureText = true;
+  var _textPasswordController = TextEditingController();
+  var _textEmailController = TextEditingController();
+
+  @override
+  void initState() {
+    _textPasswordController.addListener((){
+      setState(() {
+        password = _textPasswordController.text;
+      });
+    });
+    _textEmailController.addListener((){
+      setState(() {
+        email = _textEmailController.text;
+      });
+    });
+    super.initState();
+  }
 
   OutlineInputBorder bordasInputText = new OutlineInputBorder(
       borderRadius: new BorderRadius.circular(4.0),
@@ -72,6 +91,13 @@ class _LoginPageState extends State<LoginPage> {
             child: TextFormField(
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.emailAddress,
+              controller: _textEmailController,
+              validator:  (value) {
+                if (value.isEmpty) {
+                  return 'Por Favor, Entre com algum texto';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 labelText: 'E-mail',
                 hintText: "Insira seu e-mail aqui",
@@ -85,6 +111,13 @@ class _LoginPageState extends State<LoginPage> {
             margin: EdgeInsets.only(top:32),
             child: TextFormField(
               obscureText: obscureText,
+              controller: _textPasswordController,
+              validator:  (value) {
+                if (value.isEmpty) {
+                  return 'Por Favor, Entre com algum texto';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 labelText: 'Senha',
                 hintText: 'Insira a sua senha aqui',
@@ -102,14 +135,22 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             margin: EdgeInsets.only(top:40),
             width: MediaQuery.of(context).size.width,
-            child: OrangeButton('ENTRAR', 20.0, Constants.primary_color, (){
-              pushReplacement(context, HistoricoPedidosPage());
-            }),
+            child: OrangeButton('ENTRAR', 20.0,
+                (email.isNotEmpty && password.isNotEmpty) ? Constants.primary_color : Constants.primary_color_opacite,
+                    (){
+                  if (_formKey.currentState.validate()) pushReplacement(context, HistoricoPedidosPage());
+                }),
           ),
         ],
       ),
     );
   }
 
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    _textPasswordController.dispose();
+    super.dispose();
+  }
 
 }
