@@ -1,7 +1,9 @@
 import 'package:appetit_app/pages/detalhes_pedido_page.dart';
+import 'package:appetit_app/pages/finalizar_pedido_page.dart';
 import 'package:appetit_app/utils/Constants.dart';
 import 'package:appetit_app/utils/nav.dart';
 import 'package:appetit_app/widgets/card_pedido.dart';
+import 'package:appetit_app/widgets/orange_button.dart';
 import 'package:flutter/material.dart';
 
 ///
@@ -18,6 +20,8 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
   double progressValue = 0.34;
   bool bottonOptionsPage = true;
   double marginBotton = 0.0;
+  int _clientePagou = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,6 +162,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
     switch(page){
       case 1: return _pageItensPedido();
       case 2: return _pageClientes();
+      case 3: return _pageFinalizarPedido();
     }
   }
 
@@ -263,14 +268,90 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                       "Justine Marshall",
                       null,
                       null, true, false, () async {
-                        setState(() {
-                          bottonOptionsPage = true;
-                          marginBotton = 56.0;
-                        });
-                        return true;
-                      });
+                    setState(() {
+                      bottonOptionsPage = true;
+                      marginBotton = 56.0;
+                    });
+                    return true;
+                  });
                 }),
           ],
+        ),
+      ],
+    );
+  }
+
+  Widget _pageFinalizarPedido() {
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(bottom: 16, top:24),
+          child: Text("O cliente já pagou?",
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
+        ),
+        Card(
+          color: Colors.white,
+          child: ListTile(
+              title: RadioListTile(
+                groupValue: _clientePagou,
+                title: Text("Sim"),
+                value: 1,
+                onChanged: (val) {
+                  setState(() {
+                    _clientePagou = 1;
+                  });
+                },
+                activeColor: Constants.primary_color,
+              )
+          ),
+        ),
+        Card(
+          color: Colors.white,
+          child: ListTile(
+              title: RadioListTile(
+                groupValue: _clientePagou,
+                title: Text("Não"),
+                value: 0,
+                onChanged: (val) {
+                  setState(() {
+                    _clientePagou = 0;
+                  });
+                },
+                activeColor: Constants.primary_color,
+              )
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 16, top:24),
+          child: Text("Em que data o pedido foi realizado?",
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
+        ),
+        Card(
+          color: Colors.white,
+          child: ListTile(
+              leading: Icon(Icons.calendar_today, size: 20, color: Constants.primary_text,),
+              title: Text("Selecione uma data"),
+              trailing: Icon(Icons.arrow_forward_ios, color: Constants.primary_color,),
+            onTap: () async {
+//              final DateTime picked = await showDatePicker(
+//                  context: context,
+//                  initialDate: DateTime.now(),
+//                  firstDate: new DateTime(1999),
+//                  lastDate: new DateTime.now(),
+//              );
+            },
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top:78),
+          width: MediaQuery.of(context).size.width,
+          child: OrangeButton('FINALIZAR PEDIDO', 14, Constants.primary_color, (){
+            setState(() {
+              push(context, FinalizarPedidoPage());
+            });
+          }),
         ),
       ],
     );

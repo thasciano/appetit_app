@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 class OrangeButton extends StatelessWidget {
 
   String text;
+  double fontSize;
   Function onPress;
   Color color;
 
-  OrangeButton(this.text, this.color, this.onPress);
+  OrangeButton(this.text, this.fontSize, this.color, this.onPress);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class OrangeButton extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(16, 14, 16, 14),
         child: Text(
             text,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white)
+            style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w600, color: Colors.white)
         ),
       ),
     );

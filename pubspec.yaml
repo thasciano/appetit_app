@@ -45,6 +45,7 @@ flutter:
     - assets/images/logo.png
     - assets/images/ic_password.png
     - assets/images/ic_filter.png
+    - assets/images/ic_pedido_finalizado.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

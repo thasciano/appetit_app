@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             margin: EdgeInsets.only(top:40),
             width: MediaQuery.of(context).size.width,
-            child: OrangeButton('ENTRAR', Constants.primary_color, (){
+            child: OrangeButton('ENTRAR', 20.0, Constants.primary_color, (){
               pushReplacement(context, HistoricoPedidosPage());
             }),
           ),
