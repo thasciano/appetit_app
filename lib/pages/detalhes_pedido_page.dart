@@ -1,4 +1,5 @@
-import 'package:appetit_app/utils/Constants.dart';
+import 'package:appetit_app/domain/models/categoria_produto.dart';
+import 'package:appetit_app/utils/constants.dart';
 import 'package:appetit_app/utils/nav.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +8,19 @@ import 'package:flutter/material.dart';
 /// thasciano@gmail.com
 ///
 class DetalhesPedidoPage extends StatefulWidget {
+  Produtos produtos;
+  DetalhesPedidoPage(this.produtos);
   @override
-  _DetalhesPedidoPageState createState() => _DetalhesPedidoPageState();
+  _DetalhesPedidoPageState createState() {
+    return _DetalhesPedidoPageState(this.produtos);
+  }
 }
 
 class _DetalhesPedidoPageState extends State<DetalhesPedidoPage> {
+  Produtos produtos;
+
+  _DetalhesPedidoPageState(this.produtos);
+
   String tag;
 
   List<String> _texts = [
@@ -73,15 +82,13 @@ class _DetalhesPedidoPageState extends State<DetalhesPedidoPage> {
                     child: Card(
                       color: Colors.white,
                       child: ListTile(
-                        onTap: (){
-                          push(context, DetalhesPedidoPage(), false);
-                        },
+
                         leading: Image.asset("assets/images/logo.png", width: 40, height: 40,),
-                        title: Text("Cuscuz Completo",
+                        title: Text(produtos.nome,
                             style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
-                        subtitle: Text("Milho ou arroz",
-                            style: TextStyle(fontSize: 16, color: Constants.secondary_text, )),
-                        trailing: Text("R\$ 2,25",
+                        subtitle: produtos.descricao !=null ? Text(produtos.descricao,
+                            style: TextStyle(fontSize: 16, color: Constants.secondary_text, )) : null,
+                        trailing: Text("R\$ ${produtos.valor}",
                             style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600 )),
                       ),
                     ),
@@ -89,42 +96,49 @@ class _DetalhesPedidoPageState extends State<DetalhesPedidoPage> {
 
                   Divider(height: 1, color: Colors.black12,),
 
-                  Container(
-                    margin: EdgeInsets.only(top:24),
-                    child: Text("Opções",
-                        style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
-                  ),
-                  Container(
-                      child: Text("Escolha uma das opções de massas disponíveis abaixo.", textAlign: TextAlign.start,
-                          style: TextStyle(fontSize: 16, color: Constants.secondary_text))
-                  ),
+                  Visibility(
+                    visible: produtos.descricao !=null ? true : false,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top:24),
+                          child: Text("Opções",
+                              style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
+                        ),
+                        Container(
+                            child: Text("Escolha uma das opções de massas disponíveis abaixo.", textAlign: TextAlign.start,
+                                style: TextStyle(fontSize: 16, color: Constants.secondary_text))
+                        ),
 
-                  Wrap(
-                    children: <Widget>[
-                      ListView.builder(
-                          itemCount: _texts.length,
-                          padding: EdgeInsets.all(0.0),
-                          shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index){
-                            return Card(
-                              color: Colors.white,
-                              child: ListTile(
-                                  title: RadioListTile(
-                                    groupValue: _currentIndex,
-                                    title: Text("${_texts[index]}"),
-                                    value: index,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        _currentIndex = index;
-                                      });
-                                    },
-                                    activeColor: Constants.primary_color,
-                                  )
-                              ),
-                            );
-                          }),
-                    ],
+                        Wrap(
+                          children: <Widget>[
+                            ListView.builder(
+                                itemCount: _texts.length,
+                                padding: EdgeInsets.all(0.0),
+                                shrinkWrap: true,
+                                physics: ClampingScrollPhysics(),
+                                itemBuilder: (BuildContext context, int index){
+                                  return Card(
+                                    color: Colors.white,
+                                    child: ListTile(
+                                        title: RadioListTile(
+                                          groupValue: _currentIndex,
+                                          title: Text("${_texts[index]}"),
+                                          value: index,
+                                          onChanged: (val) {
+                                            setState(() {
+                                              _currentIndex = index;
+                                            });
+                                          },
+                                          activeColor: Constants.primary_color,
+                                        )
+                                    ),
+                                  );
+                                }),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(top:24),
@@ -150,59 +164,73 @@ class _DetalhesPedidoPageState extends State<DetalhesPedidoPage> {
             ],
           ),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-            height: 68,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                boxShadow: [BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4.0,
-                )]
-            ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.add),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        child: Text("1", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),),
-                      ),
-                      Icon(Icons.add)
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: RaisedButton(
-                    onPressed: (){
-                      pop(context, 1);
-                    },
-                    shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(2.0)),
-                    color: Constants.primary_color,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Adicionar",
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
-                        Text("R\$ 3,25",
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
-                      ],),
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
-
+        __bottonOptions()
       ],
+    );
+  }
+
+  Widget __bottonOptions() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        height: 68,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            boxShadow: [BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4.0,
+            )]
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          produtos.quantidade -= 1;
+                        });
+                      },
+                      child: Text("-", textAlign: TextAlign.center, style: TextStyle(fontSize: 32),)),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text("${produtos.quantidade}", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),),
+                  ),
+                  GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          produtos.quantidade += 1;
+                        });
+                      }, child: Icon(Icons.add))
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: RaisedButton(
+                onPressed: (){
+                  pop(context, produtos.quantidade);
+                },
+                shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(2.0)),
+                color: Constants.primary_color,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Adicionar",
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
+                    Text("R\$ ${(produtos.valor * produtos.quantidade).toStringAsFixed(2)}",
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
+                  ],),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

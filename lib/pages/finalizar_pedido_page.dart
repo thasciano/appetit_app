@@ -1,6 +1,6 @@
 import 'package:appetit_app/pages/historico_pedidos_page.dart';
 import 'package:appetit_app/pages/novo_pedido_page.dart';
-import 'package:appetit_app/utils/Constants.dart';
+import 'package:appetit_app/utils/constants.dart';
 import 'package:appetit_app/utils/nav.dart';
 import 'package:appetit_app/widgets/orange_button.dart';
 import 'package:flutter/material.dart';

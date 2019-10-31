@@ -1,11 +1,9 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:appetit_app/domain/blocs/cliente_bloc.dart';
+import 'package:appetit_app/domain/blocs/pedido_bloc.dart';
+import 'package:appetit_app/domain/models/categoria_produto.dart';
 import 'package:appetit_app/domain/models/cliente.dart';
 import 'package:appetit_app/pages/detalhes_pedido_page.dart';
 import 'package:appetit_app/pages/finalizar_pedido_page.dart';
-import 'package:appetit_app/utils/Constants.dart';
+import 'package:appetit_app/utils/constants.dart';
 import 'package:appetit_app/utils/nav.dart';
 import 'package:appetit_app/widgets/card_pedido.dart';
 import 'package:appetit_app/widgets/orange_button.dart';
@@ -22,64 +20,69 @@ class NovoPedidoPage extends StatefulWidget {
 }
 
 class _NovoPedidoPageState extends State<NovoPedidoPage> {
-  int page = 1;
-  double progressValue = 0.34;
-  bool bottonOptionsPage = true;
-  double marginBotton = 0.0;
   int _clientePagou = 0;
   DateTime dt = null;
-  String descricao = "Total R\$ 0,0";
 
-  List<Cliente> listClientes;
+  final _blocPedido = PedidoBloc();
 
-  final _blocClientes = ClienteBloc();
 
   @override
   void initState() {
     super.initState();
-    _blocClientes.fetch(context);
+    _blocPedido.fetch(context);
   }
 
   @override
   void dispose() {
-    _blocClientes.dispose();
+    _blocPedido.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Constants.background,
-        elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Constants.primary_color,),
-          onPressed: (){
-            if(page>1) {
-              setState(() {
-                this.progressValue -= 0.33;
-//                if(this.page==2) _blocClientes.fetch(context);
-                this.page -= 1;
-              });
-            }else
-              pop(context);
-          },
-        ),
-      ),
-      body: SafeArea( child: _body(),),
-      floatingActionButton: page==2 ?
-          Container(
-            margin: EdgeInsets.only(bottom: marginBotton),
-            child: FloatingActionButton(
-              onPressed: (){ },
-              child: Icon(Icons.add),
-              backgroundColor: Constants.primary_color,
-            ),
-          ) : null,
+    return StreamBuilder(
+        stream: _blocPedido.getPage,
+        initialData: 1,
+        builder: (context, page) {
+          return StreamBuilder(
+              stream: _blocPedido.getMarginBotton,
+              initialData: 0.0,
+              builder: (context, snapshotMarginBotton) {
+                return Scaffold(
+                    appBar: AppBar(
+                      backgroundColor: Constants.background,
+                      elevation: 0.0,
+                      leading: IconButton(
+                        icon: Icon(Icons.arrow_back_ios, color: Constants.primary_color,),
+                        onPressed: (){
+                          var teste = _blocPedido.changePage(-1);
+                          if(teste==0) return pop(context);
+                        },
+                      ),
+                    ),
+                    body: SafeArea( child: _body(page.data, snapshotMarginBotton.data),),
+                    floatingActionButton: _floatingActionButtonPageTwo(page.data, snapshotMarginBotton.data)
+                );
+              }
+          );
+        }
     );
   }
 
-  Widget _body() {
+  Widget _floatingActionButtonPageTwo(int page, double marginBotton) {
+    if(page==2){
+      return Container(
+        margin: EdgeInsets.only(bottom: marginBotton),//56
+        child: FloatingActionButton(
+          onPressed: (){ },
+          child: Icon(Icons.add),
+          backgroundColor: Constants.primary_color,
+        ),
+      );
+    } else return null;
+  }
+
+  Widget _body(int page, double marginBotton) {
     return Stack(
       children: <Widget>[
         Container(
@@ -113,35 +116,81 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                               style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
                         ),
                         Expanded(
-                          flex: 1,
-                          child: Text("${page} de 3", textAlign: TextAlign.right,
-                                  style: TextStyle(fontSize: 16, color: Constants.secondary_text))
+                            flex: 1,
+                            child: Text("${page ?? 1} de 3", textAlign: TextAlign.right,
+                                style: TextStyle(fontSize: 16, color: Constants.secondary_text))
                         )
                       ],
                     ),
                   ),
 
-                  LinearProgressIndicator(
-                    backgroundColor: Colors.black12,
-                    value: progressValue,
-                    valueColor: AlwaysStoppedAnimation<Color>(Constants.primary_color),
+                  StreamBuilder(
+                      stream: _blocPedido.getProgresso,
+                      initialData: 33.0,
+                      builder: (context, snapshotProg) {
+                        return LinearProgressIndicator(
+                          backgroundColor: Colors.black12,
+                          value: snapshotProg.data,
+                          valueColor: AlwaysStoppedAnimation<Color>(Constants.primary_color),
+                        );
+                      }
                   ),
 
-                  _getPage(),
+                  StreamBuilder(
+                      stream: _blocPedido.getCategoriasProdutos,
+                      builder: (context, snapshotCatPro) {
+                        if(snapshotCatPro.hasData){
+                          return  StreamBuilder(
+                              stream: _blocPedido.getClientes,
+                              builder: (context, snapshotClien) {
+                                if(snapshotClien.hasData){
+                                  return _getPage(page, snapshotCatPro.data, snapshotClien.data);
+                                } else if (snapshotClien.hasError) {
+                                  return Text("Erro ao converter!");
+                                }else {
+                                  return CircularProgressIndicator();
+                                }
+                              });
+                        } else if (snapshotCatPro.hasError) {
+                          return Text("Erro ao converter!");
+                        }else {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
+
 
                 ],
               ),
             ],
           ),
         ),
+        _bottonOptions()
+      ],
+    );
+  }
 
-        Visibility(
-          visible: bottonOptionsPage,
-          child: Align(
+  Widget _getPage(int page, List<Categoria> categorias, List<Cliente> clientes){
+    switch (page) {
+      case 1: return _pageItensPedido(categorias);
+      case 2:
+        return _pageClientes(clientes);
+      case 3:
+        return _pageFinalizarPedido();
+    }
+  }
+  Widget _bottonOptions() {
+    return StreamBuilder(
+        stream: _blocPedido.getOptions,
+        initialData: false,
+        builder: (context, snapshotOptions) {
+          return Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-              height: 56,
+              height: snapshotOptions.data ? 56.0 : 0.0,
               decoration: BoxDecoration(
                   color: Constants.primary_color,
                   borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -153,20 +202,19 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
               child: Row(
                 children: <Widget>[
                   Expanded(
-                    flex: 1,
-                    child: Text(this.descricao, textAlign: TextAlign.start, style: TextStyle( color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),),
-                  ),
+                      flex: 2,
+                      child: StreamBuilder(
+                          stream: _blocPedido.getQtdClientesSelecionados,
+                          initialData: "",
+                          builder: (context, snapshotCliSel) {
+                            return Text(snapshotCliSel.data, textAlign: TextAlign.start, style: TextStyle( color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),);
+                          })),
                   Expanded(
                     flex: 1,
                     child: GestureDetector(
                       onTap: (){
-//                        pop(context, 1);
-                        setState(() {
-                          marginBotton = 0.0;
-                          bottonOptionsPage = false;
-                          progressValue += 0.33;
-                          page += 1;
-                        });
+                        _blocPedido.changePage(1);
+                        _blocPedido.setOptions(false);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -180,21 +228,12 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                 ],
               ),
             ),
-          ),
-        )
-      ],
+          );
+        }
     );
   }
 
-  Widget _getPage(){
-    switch(page){
-      case 1: return _pageItensPedido();
-      case 2: return _pageClientes();
-      case 3: return _pageFinalizarPedido();
-    }
-  }
-
-  Widget _pageItensPedido() {
+  Widget _pageItensPedido(List<Categoria> categoria) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -205,67 +244,65 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
             prefixIcon: Icon(Icons.search, color: Constants.primary_color,),
           ),
         ),
+        _listCategoria(categoria)
+      ],
+    );
+  }
 
-        Container(
-          margin: EdgeInsets.only(bottom: 16, top:24),
-          child: Text("Cuscuz",
-              textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
-        ),
+  Wrap _listCategoria(List<Categoria> categorias) {
+    return Wrap(
+      children: <Widget>[
+        ListView.builder(
+            itemCount: categorias.length,
+            padding: EdgeInsets.all(0.0),
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            itemBuilder: (BuildContext context, int indexC){
+              return Wrap(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: 16, top:24),
+                    child: Text(categorias[indexC].nome,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
+                  ),
+                  ListView.builder(
+                      itemCount: categorias[indexC].listProdutos.length,
+                      padding: EdgeInsets.all(0.0),
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemBuilder: (BuildContext context, int indexP){
+                        return CardPedido(
+                            categorias[indexC].listProdutos[indexP].imagem,
+                            categorias[indexC].listProdutos[indexP].nome,
+                            categorias[indexC].listProdutos[indexP].descricao,
+                            categorias[indexC].listProdutos[indexP].valor,
+                            true,
+                            categorias[indexC].listProdutos[indexP].selecionado, () async {
+//                          if(categorias[indexC].id == 2) {
+//                            _blocPedido.selecionarProduto(indexC, indexP);
+//                            return true;
+//                          }
 
-        Wrap(
-          children: <Widget>[
-            ListView.builder(
-                itemCount: 2,
-                padding: EdgeInsets.all(0.0),
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index){
-                  return Hero(
-                    tag: "hero-tag-${index}",
-                    child: CardPedido(
-                        "assets/images/logo.png",
-                        "Cuscuz Completo",
-                        "Milho ou arroz",
-                        "R\$ 125,16", true, false, () async {
-
-                      return push(context, DetalhesPedidoPage(), false);
-                    }),
-                  );
-                }),
-          ],
-        ),
-
-        Divider(height: 1, color: Colors.black12,),
-
-        Container(
-          margin: EdgeInsets.only(bottom: 16, top:24),
-          child: Text("Pães",
-              textAlign: TextAlign.start,
-              style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
-        ),
-
-        Wrap(
-          children: <Widget>[
-            ListView.builder(
-                itemCount: 2,
-                padding: EdgeInsets.all(0.0),
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
-                itemBuilder: (BuildContext context, int index){
-                  return CardPedido(
-                      "assets/images/logo.png",
-                      "Pão caseiro",
-                      null,
-                      "R\$ 125,16", true, false, (){ return push(context, DetalhesPedidoPage(), false); });
-                }),
-          ],
+                          push(context, DetalhesPedidoPage(categorias[indexC].listProdutos[indexP]), false).then((result){
+                            print(result);
+                            _blocPedido.selecionarProduto(indexC, indexP, result);
+                          });
+                          return true;
+                        });
+                      }),
+                  if(indexC +1 != categorias.length) Container(
+                      margin: EdgeInsets.only(top: 24),
+                      child: Divider(height: 1, color: Colors.black12,)),
+                ],
+              );
+            }
         ),
       ],
     );
   }
 
-  Widget _pageClientes() {
+  Widget _pageClientes(List<Cliente> clientes) {
     return Column(
       children: <Widget>[
         TextFormField(
@@ -286,17 +323,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
 
         Wrap(
           children: <Widget>[
-            StreamBuilder(
-                stream: _blocClientes.getClientes,
-                builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    return _listaClientes(snapshot.data);
-                  } else if (snapshot.hasError) {
-                    return Text("Erro ao converter!");
-                  }else {
-                    return CircularProgressIndicator();
-                  }
-                }),
+            _listaClientes(clientes)
           ],
         ),
       ],
@@ -315,13 +342,8 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
               clientes[index].nome,
               null,
               null, true, clientes[index].selecionado, () {
-                setState(() {
-                  _blocClientes.selecionarCliente(index);
-                  var qtd = clientes.where((c)=> c.selecionado==true).length;
-                  this.descricao = "$qtd clientes selecionados";
-                  bottonOptionsPage = true;
-                  marginBotton = 56.0;
-                });
+            _blocPedido.selecionarCliente(index);
+            _blocPedido.setOptions(true);
             return true;
           });
         });
@@ -397,9 +419,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
           margin: EdgeInsets.only(top:78),
           width: MediaQuery.of(context).size.width,
           child: OrangeButton('FINALIZAR PEDIDO', 14, Constants.primary_color, (){
-            setState(() {
-              push(context, FinalizarPedidoPage(), false);
-            });
+            push(context, FinalizarPedidoPage(), false);
           }),
         ),
       ],

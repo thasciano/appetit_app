@@ -1,4 +1,4 @@
-import 'package:appetit_app/utils/Constants.dart';
+import 'package:appetit_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 ///
@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 ///
 class CardPedido extends StatelessWidget {
 
-  String imagem;
-  String titulo;
-  String subTitulo;
-  String valor;
-  bool selecionado= false;
-  Function onPress;
-  bool hasTrailing;
+  final String imagem;
+  final String titulo;
+  final String subTitulo;
+  final double valor;
+  final bool selecionado;
+  final Function onPress;
+  final bool hasTrailing;
 
   CardPedido(this.imagem, this.titulo, this.subTitulo, this.valor, this.hasTrailing, this.selecionado, this.onPress);
 
@@ -38,8 +38,8 @@ class CardPedido extends StatelessWidget {
         subtitle: subTitulo != null? Text(subTitulo,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 16, color: Constants.secondary_text, )) : null,
-        trailing: valor == null ? null : hasTrailing ? Text(valor,
+            style: TextStyle(fontSize: 16, color: this.selecionado ? Colors.white : Constants.secondary_text, )) : null,
+        trailing: valor == null ? null : hasTrailing ? Text("R\$ ${valor}",
             textAlign: TextAlign.end,
             style: getEstiloTitulo()) : null,
       ),
@@ -59,7 +59,7 @@ class CardPedido extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: Text(valor, textAlign: TextAlign.end, style: getEstiloTitulo()),
+            child: Text("R\$ ${valor}", textAlign: TextAlign.end, style: getEstiloTitulo()),
           )
         ],
       );

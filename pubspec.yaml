@@ -50,6 +50,7 @@ flutter:
     - assets/images/ic_filter.png
     - assets/images/ic_pedido_finalizado.png
     - assets/json/clientes.json
+    - assets/json/produtos.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

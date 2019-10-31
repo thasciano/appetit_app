@@ -1,81 +1,98 @@
 [
   {
-    "id":1,
-    "nome":"Cuscuz Completo",
-    "descricao":"Milho ou Arroz",
-    "tipo":"Cuzcus",
-    "valor":8.06,
-    "selecionado":false,
-    "opcoes":[
+    "id": 1,
+    "nome": "Cuzcus",
+    "list_produtos": [
       {
-        "nome":"Cuscuz de milho"
+        "id":3,
+        "nome":"Cuscuz Completo",
+        "descricao":"Milho ou Arroz",
+        "valor":2.25,
+        "quantidade":1,
+        "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS947TyQbeFTToAqyPutA4cQxNuPSiBNEbotgMMFGhRFTaTdVxv",
+        "selecionado":false,
+        "opcao":[
+          {
+            "nome":"Cuscuz de milho"
+          },
+          {
+            "nome":"Cuscuz de arroz"
+          }
+        ]
       },
       {
-        "nome":"Cuscuz de arroz"
+        "id":4,
+        "nome":"Cuscuz Completo",
+        "descricao":"Milho ou Arroz",
+        "valor":3.25,
+        "quantidade":1,
+        "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS947TyQbeFTToAqyPutA4cQxNuPSiBNEbotgMMFGhRFTaTdVxv",
+        "selecionado":false,
+        "opcao":[
+          {
+            "nome":"Cuscuz de milho"
+          },
+          {
+            "nome":"Cuscuz de arroz"
+          }
+        ]
       }
     ]
   },
   {
-    "id":2,
-    "nome":"Cuscuz Completo",
-    "descricao":"Milho ou Arroz",
-    "tipo":"Cuzcus",
-    "valor":11.06,
-    "selecionado":false,
-    "opcoes":[
+    "id": 2,
+    "nome": "Pães",
+    "list_produtos": [
       {
-        "nome":"Cuscuz de milho"
+        "id":5,
+        "nome":"Pão caseiro",
+        "descricao":null,
+        "valor":8.55,
+        "quantidade":1,
+        "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR-zIqnUUFPTqHZT0prU4LOPt7Q8pS-8O4nQTRIs2PsN9mjadL5",
+        "selecionado":false,
+        "opcao":null
       },
       {
-        "nome":"Cuscuz de arroz"
+        "id":6,
+        "nome":"Pão caseiro completo",
+        "descricao":null,
+        "valor":3.55,
+        "quantidade":1,
+        "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR-zIqnUUFPTqHZT0prU4LOPt7Q8pS-8O4nQTRIs2PsN9mjadL5",
+        "selecionado":false,
+        "opcao":null
+      },
+      {
+        "id":7,
+        "nome":"Misto quente",
+        "descricao":null,
+        "valor":5.55,
+        "quantidade":1,
+        "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR-zIqnUUFPTqHZT0prU4LOPt7Q8pS-8O4nQTRIs2PsN9mjadL5",
+        "selecionado":false,
+        "opcao":null
+      },
+      {
+        "id":8,
+        "nome":"Lingua de sogra(pq.)",
+        "descricao":null,
+        "valor":2.55,
+        "quantidade":1,
+        "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR-zIqnUUFPTqHZT0prU4LOPt7Q8pS-8O4nQTRIs2PsN9mjadL5",
+        "selecionado":false,
+        "opcao":null
+      },
+      {
+        "id":9,
+        "nome":"Lingua de sogra(gr.)",
+        "descricao":null,
+        "valor":3.55,
+        "quantidade":1,
+        "imagem": "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR-zIqnUUFPTqHZT0prU4LOPt7Q8pS-8O4nQTRIs2PsN9mjadL5",
+        "selecionado":false,
+        "opcao":null
       }
     ]
-  },
-  {
-    "id":3,
-    "nome":"Pão caseiro",
-    "descricao":null,
-    "tipo":"Pães",
-    "valor":8.06,
-    "selecionado":false,
-    "opcoes":null
-  },
-  {
-    "id":4,
-    "nome":"Pão caseiro completo",
-    "descricao":null,
-    "tipo":"Pães",
-    "valor":3.06,
-    "selecionado":false,
-    "opcoes":null
-  },
-  {
-    "id":5,
-    "nome":"Misto quente",
-    "descricao":null,
-    "tipo":"Pães",
-    "valor":10.06,
-    "selecionado":false,
-    "opcoes":null
-  },
-  {
-    "id":6,
-    "nome":"Lingua de sogra(pq.)",
-    "descricao":null,
-    "tipo":"Pães",
-    "valor":2.00,
-    "selecionado":false,
-    "opcoes":null
-  },
-  {
-    "id":7,
-    "nome":"Lingua de sogra(gr.)",
-    "descricao":null,
-    "tipo":"Pães",
-    "valor":3.00,
-    "selecionado":false,
-    "opcoes":null
   }
-
-
 ]

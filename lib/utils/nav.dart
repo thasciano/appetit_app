@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 /// Classe auxiliar para navegação entre telas. Com essa centralização é possivel
 /// manipular e centralizar as alterações.
 ///
-push(BuildContext context, Widget page, bool replacement) {
+push(BuildContext context, Widget page, bool replacement)  {
 
   PageRouteBuilder pageRouter = PageRouteBuilder(
-    transitionDuration: Duration(milliseconds: 250),
-    transitionsBuilder: (context, animation, secondaryAnimation, child)=>
-        FadeTransition(opacity: animation, child: child,),
+//    transitionDuration: Duration(milliseconds: 250),
+//    transitionsBuilder: (context, animation, secondaryAnimation, child)=>
+//        FadeTransition(opacity: animation, child: child,),
     pageBuilder: (_,__,___)=> page,
   );
 

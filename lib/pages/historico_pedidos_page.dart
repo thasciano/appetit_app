@@ -1,4 +1,4 @@
-import 'package:appetit_app/utils/Constants.dart';
+import 'package:appetit_app/utils/constants.dart';
 import 'package:appetit_app/utils/nav.dart';
 import 'package:appetit_app/widgets/card_pedido.dart';
 import 'package:flutter/material.dart';
@@ -72,10 +72,10 @@ class HistoricoPedidosPage extends StatelessWidget {
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index){
                       return CardPedido(
-                          "assets/images/logo.png",
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTLUQVyLZIdVcExILlASAhOtlZOi29L6zU5-FeIYGjOO97CeOBL",
                           "Hanna Montana",
                           "1x Cuscuz com calabresa, 1x Cuscuz com calabresa, 1x Cuscuz com calabresa ",
-                          "R\$ 125,16", false, false, null);
+                          125.16, false, false, null);
                     }),
 
                 Container(
@@ -91,10 +91,10 @@ class HistoricoPedidosPage extends StatelessWidget {
                     physics: ClampingScrollPhysics(),
                     itemBuilder: (BuildContext context, int index){
                       return CardPedido(
-                          "assets/images/logo.png",
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTLUQVyLZIdVcExILlASAhOtlZOi29L6zU5-FeIYGjOO97CeOBL",
                           "Hanna Montana",
                           "1x Cuscuz com calabresa, 1x Cuscuz com calabresa, 1x Cuscuz com calabresa ",
-                          "R\$ 125,16", false, false, null);
+                          125.16, false, false, null);
                     }),
               ],
             ),
