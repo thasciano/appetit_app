@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:appetit_app/domain/blocs/cliente_bloc.dart';
 import 'package:appetit_app/domain/models/cliente.dart';
 import 'package:appetit_app/pages/detalhes_pedido_page.dart';
 import 'package:appetit_app/pages/finalizar_pedido_page.dart';
@@ -26,6 +28,23 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
   double marginBotton = 0.0;
   int _clientePagou = 0;
   DateTime dt = null;
+  String descricao = "Total R\$ 0,0";
+
+  List<Cliente> listClientes;
+
+  final _blocClientes = ClienteBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    _blocClientes.fetch(context);
+  }
+
+  @override
+  void dispose() {
+    _blocClientes.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +57,9 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
           onPressed: (){
             if(page>1) {
               setState(() {
-                progressValue -= 0.33;
-                page -= 1;
+                this.progressValue -= 0.33;
+//                if(this.page==2) _blocClientes.fetch(context);
+                this.page -= 1;
               });
             }else
               pop(context);
@@ -47,11 +67,15 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
         ),
       ),
       body: SafeArea( child: _body(),),
-      floatingActionButton: page==2 ? FloatingActionButton(
-        onPressed: (){ },
-        child: Icon(Icons.add),
-        backgroundColor: Constants.primary_color,
-      ): null,
+      floatingActionButton: page==2 ?
+          Container(
+            margin: EdgeInsets.only(bottom: marginBotton),
+            child: FloatingActionButton(
+              onPressed: (){ },
+              child: Icon(Icons.add),
+              backgroundColor: Constants.primary_color,
+            ),
+          ) : null,
     );
   }
 
@@ -90,9 +114,8 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                         ),
                         Expanded(
                           flex: 1,
-                          child: Text("${page} de 3",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(fontSize: 16, color: Constants.secondary_text)),
+                          child: Text("${page} de 3", textAlign: TextAlign.right,
+                                  style: TextStyle(fontSize: 16, color: Constants.secondary_text))
                         )
                       ],
                     ),
@@ -131,7 +154,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Text("Total: R\$ 3,25", textAlign: TextAlign.start, style: TextStyle( color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),),
+                    child: Text(this.descricao, textAlign: TextAlign.start, style: TextStyle( color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),),
                   ),
                   Expanded(
                     flex: 1,
@@ -255,6 +278,7 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
 
         Container(
           margin: EdgeInsets.only(bottom: 16, top:24),
+          alignment: Alignment.centerLeft,
           child: Text("Meus Clientes",
               textAlign: TextAlign.start,
               style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
@@ -262,20 +286,17 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
 
         Wrap(
           children: <Widget>[
-            FutureBuilder(
-                future: DefaultAssetBundle.of(context).loadString('assets/json/clientes.json'),
+            StreamBuilder(
+                stream: _blocClientes.getClientes,
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
-                    final data = json.decode(snapshot.data);
-                    var clientes = data.map<Cliente>((json) => Cliente.fromJson(json)).toList();
-                    return _listaClientes(clientes);
+                    return _listaClientes(snapshot.data);
                   } else if (snapshot.hasError) {
                     return Text("Erro ao converter!");
                   }else {
                     return CircularProgressIndicator();
                   }
                 }),
-
           ],
         ),
       ],
@@ -293,12 +314,14 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
               clientes[index].imagem,
               clientes[index].nome,
               null,
-              null, true, false, () async {
-            setState(() {
-
-              bottonOptionsPage = true;
-              marginBotton = 56.0;
-            });
+              null, true, clientes[index].selecionado, () {
+                setState(() {
+                  _blocClientes.selecionarCliente(index);
+                  var qtd = clientes.where((c)=> c.selecionado==true).length;
+                  this.descricao = "$qtd clientes selecionados";
+                  bottonOptionsPage = true;
+                  marginBotton = 56.0;
+                });
             return true;
           });
         });

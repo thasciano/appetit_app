@@ -11,11 +11,19 @@ class CardPedido extends StatelessWidget {
   String titulo;
   String subTitulo;
   String valor;
-  bool selecionado;
+  bool selecionado= false;
   Function onPress;
   bool hasTrailing;
 
   CardPedido(this.imagem, this.titulo, this.subTitulo, this.valor, this.hasTrailing, this.selecionado, this.onPress);
+
+  TextStyle getEstiloTitulo(){
+    return TextStyle(
+        fontSize: 16,
+        color: this.selecionado ? Colors.white : Constants.primary_text,
+        fontWeight: FontWeight.w600
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +39,9 @@ class CardPedido extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 16, color: Constants.secondary_text, )) : null,
-            trailing: valor == null ? null : hasTrailing ? Text(valor,
+        trailing: valor == null ? null : hasTrailing ? Text(valor,
             textAlign: TextAlign.end,
-            style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)) : null,
+            style: getEstiloTitulo()) : null,
       ),
     );
   }
@@ -42,21 +50,16 @@ class CardPedido extends StatelessWidget {
     return hasTrailing ? Text(titulo,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)) :
+        style: getEstiloTitulo()):
       Row(
         children: <Widget>[
           Expanded(
             flex: 3,
-            child: Text(titulo,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
+            child: Text(titulo, maxLines: 1, overflow: TextOverflow.ellipsis, style: getEstiloTitulo()),
           ),
           Expanded(
             flex: 2,
-            child: Text(valor,
-                textAlign: TextAlign.end,
-                style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
+            child: Text(valor, textAlign: TextAlign.end, style: getEstiloTitulo()),
           )
         ],
       );
