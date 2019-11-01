@@ -33,6 +33,7 @@ class PedidoBloc {
   Stream<double> get getMarginBotton => _marginBottonSC.stream;
   get setMarginBotton => _marginBottonSC.sink.add;
 
+  /// Faz o carregamento dos jsons
   void fetch(BuildContext context){
     _progressoSC.add(0.33);
     _pageSC.add(1);
@@ -102,7 +103,7 @@ class PedidoBloc {
     }
   }
 
-  /// Seleciona os clientes e sincroniza
+  /// Seleciona os clientes e sincroniza.
   void selecionarCliente(int index){
     _listClientes[index].selecionado = !_listClientes[index].selecionado;
     _clientesSC.add(_listClientes);
@@ -117,6 +118,7 @@ class PedidoBloc {
 
   }
 
+  /// Fecha os controlers quando chamado.
   void dispose(){
     _clientesSC.close();
     _categoriaProdutosSC.close();

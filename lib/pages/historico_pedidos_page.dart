@@ -1,5 +1,6 @@
 import 'package:appetit_app/utils/constants.dart';
 import 'package:appetit_app/utils/nav.dart';
+import 'package:appetit_app/widgets/cabecalho_page.dart';
 import 'package:appetit_app/widgets/card_pedido.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,10 @@ class HistoricoPedidosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Constants.background,
+        elevation: 0.0,
+      ),
       body: SafeArea(child: _body(context)),
     );
   }
@@ -24,16 +29,7 @@ class HistoricoPedidosPage extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(top:56, bottom: 8),
-              child: Text("Olá, Alessandra!",
-                  style: TextStyle(fontSize: 24, color: Constants.primary_color)),
-            ),
-            Container(
-              width: 240.0,
-              height: 2.0,
-              color: Constants.verde,),
-
+            CabecalhoPage("Olá, Alessandra!", ""),
             GestureDetector(
                 onTap: (){
                   push(context, NovoPedidoPage(), false);

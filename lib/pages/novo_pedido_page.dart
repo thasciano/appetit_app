@@ -5,8 +5,9 @@ import 'package:appetit_app/pages/detalhes_pedido_page.dart';
 import 'package:appetit_app/pages/finalizar_pedido_page.dart';
 import 'package:appetit_app/utils/constants.dart';
 import 'package:appetit_app/utils/nav.dart';
+import 'package:appetit_app/widgets/cabecalho_page.dart';
 import 'package:appetit_app/widgets/card_pedido.dart';
-import 'package:appetit_app/widgets/orange_button.dart';
+import 'package:appetit_app/widgets/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -24,7 +25,6 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
   DateTime dt = null;
 
   final _blocPedido = PedidoBloc();
-
 
   @override
   void initState() {
@@ -91,76 +91,13 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
             padding: EdgeInsets.all(16.0),
             children: <Widget>[
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    child: Text("Informações para o pedido",
-                        style: TextStyle(fontSize: 24, color: Constants.primary_color)),
-                  ),
-                  Container(width: 240,
-                    height: 2, color: Constants.verde,),
 
-                  Container(
-                      margin: EdgeInsets.only(top:24),
-                      child: Text("Preencha as informações abaixo para concluir o pedido.", textAlign: TextAlign.start,
-                          style: TextStyle(fontSize: 16, color: Constants.secondary_text,))),
+                  CabecalhoPage("Informações para o pedido", "Preencha as informações abaixo para concluir o pedido."),
 
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8, top:24),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 4,
-                          child: Text("O que você está vendendo?",
-                              style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
-                        ),
-                        Expanded(
-                            flex: 1,
-                            child: Text("${page ?? 1} de 3", textAlign: TextAlign.right,
-                                style: TextStyle(fontSize: 16, color: Constants.secondary_text))
-                        )
-                      ],
-                    ),
-                  ),
+                  _progress(page),
 
-                  StreamBuilder(
-                      stream: _blocPedido.getProgresso,
-                      initialData: 33.0,
-                      builder: (context, snapshotProg) {
-                        return LinearProgressIndicator(
-                          backgroundColor: Colors.black12,
-                          value: snapshotProg.data,
-                          valueColor: AlwaysStoppedAnimation<Color>(Constants.primary_color),
-                        );
-                      }
-                  ),
-
-                  StreamBuilder(
-                      stream: _blocPedido.getCategoriasProdutos,
-                      builder: (context, snapshotCatPro) {
-                        if(snapshotCatPro.hasData){
-                          return  StreamBuilder(
-                              stream: _blocPedido.getClientes,
-                              builder: (context, snapshotClien) {
-                                if(snapshotClien.hasData){
-                                  return _getPage(page, snapshotCatPro.data, snapshotClien.data);
-                                } else if (snapshotClien.hasError) {
-                                  return Text("Erro ao converter!");
-                                }else {
-                                  return CircularProgressIndicator();
-                                }
-                              });
-                        } else if (snapshotCatPro.hasError) {
-                          return Text("Erro ao converter!");
-                        }else {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      }),
-
+                  _getCategoriasProdutosStream(page),
 
                 ],
               ),
@@ -172,13 +109,81 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
     );
   }
 
+  /// Container
+  Column _progress(int page) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(bottom: 8, top:24),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 4,
+                child: Text("O que você está vendendo?",
+                    style: TextStyle(fontSize: 16, color: Constants.primary_text, fontWeight: FontWeight.w600)),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Text("${page ?? 1} de 3", textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 16, color: Constants.secondary_text))
+              )
+            ],
+          ),
+        ),
+
+        StreamBuilder(
+            stream: _blocPedido.getProgresso,
+            initialData: 33.0,
+            builder: (context, snapshotProg) {
+              return LinearProgressIndicator(
+                backgroundColor: Colors.black12,
+                value: snapshotProg.data,
+                valueColor: AlwaysStoppedAnimation<Color>(Constants.primary_color),
+              );
+            }
+        ),
+      ],
+    );
+  }
+  /// Escuta as categorias e os produtos por stream.
+  StreamBuilder<List<Categoria>> _getCategoriasProdutosStream(int page) {
+    return StreamBuilder(
+        stream: _blocPedido.getCategoriasProdutos,
+        builder: (context, snapshotCatPro) {
+          if(snapshotCatPro.hasData){
+            return _getClienteStream(page, snapshotCatPro);
+          } else if (snapshotCatPro.hasError) {
+            return Text("Erro ao converter!");
+          }else {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
+  }
+
+  /// Escuta os clientes por stream.
+  StreamBuilder<List<Cliente>> _getClienteStream(int page, AsyncSnapshot snapshotCatPro) {
+    return StreamBuilder(
+        stream: _blocPedido.getClientes,
+        builder: (context, snapshotClien) {
+          if(snapshotClien.hasData){
+            return _getPage(page, snapshotCatPro.data, snapshotClien.data);
+          } else if (snapshotClien.hasError) {
+            return Text("Erro ao converter!");
+          }else {
+            return CircularProgressIndicator();
+          }
+        });
+  }
+
   Widget _getPage(int page, List<Categoria> categorias, List<Cliente> clientes){
     switch (page) {
       case 1: return _pageItensPedido(categorias);
-      case 2:
-        return _pageClientes(clientes);
-      case 3:
-        return _pageFinalizarPedido();
+      case 2: return _pageClientes(clientes);
+      case 3: return _pageFinalizarPedido();
     }
   }
   Widget _bottonOptions() {
@@ -278,18 +283,12 @@ class _NovoPedidoPageState extends State<NovoPedidoPage> {
                             categorias[indexC].listProdutos[indexP].descricao,
                             categorias[indexC].listProdutos[indexP].valor,
                             true,
-                            categorias[indexC].listProdutos[indexP].selecionado, () async {
-//                          if(categorias[indexC].id == 2) {
-//                            _blocPedido.selecionarProduto(indexC, indexP);
-//                            return true;
-//                          }
-
-                          push(context, DetalhesPedidoPage(categorias[indexC].listProdutos[indexP]), false).then((result){
-                            print(result);
-                            _blocPedido.selecionarProduto(indexC, indexP, result);
-                          });
-                          return true;
-                        });
+                            categorias[indexC].listProdutos[indexP].selecionado,
+                                () async {
+                              push(context, DetalhesPedidoPage(categorias[indexC].listProdutos[indexP]), false).then((result){
+                                _blocPedido.selecionarProduto(indexC, indexP, result);
+                              });
+                            });
                       }),
                   if(indexC +1 != categorias.length) Container(
                       margin: EdgeInsets.only(top: 24),

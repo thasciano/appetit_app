@@ -1,6 +1,7 @@
 import 'package:appetit_app/domain/models/categoria_produto.dart';
 import 'package:appetit_app/utils/constants.dart';
 import 'package:appetit_app/utils/nav.dart';
+import 'package:appetit_app/widgets/cabecalho_page.dart';
 import 'package:flutter/material.dart';
 
 ///
@@ -64,17 +65,7 @@ class _DetalhesPedidoPageState extends State<DetalhesPedidoPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    child: Text("Detalhes do pedido",
-                        style: TextStyle(fontSize: 24, color: Constants.primary_color)),
-                  ),
-                  Container(width: 240, height: 2,color: Constants.verde,),
-
-                  Container(
-                      margin: EdgeInsets.only(top:16),
-                      child: Text("caso queira, aproveite para adicionar alguma observação para este pedido.", textAlign: TextAlign.start,
-                          style: TextStyle(fontSize: 16, color: Constants.secondary_text))),
+                  CabecalhoPage("Detalhes do pedido", "caso queira, aproveite para adicionar alguma observação para este pedido."),
 
                   Container(
                     margin: EdgeInsets.only(bottom: 24, top: 24),
