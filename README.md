@@ -4,14 +4,14 @@ Uma plataforma de solicitação de pedidos em um café fictício.
 
 ## Demonstração
 
-![Apptit Demo](demo/apptit.gif)
-![Apptit login](demo/screen1.png)
-![Apptit dashboard](demo/screen2.png)
-![Apptit novo_pedido](demo/screen3.png)
-![Apptit informacoes](demo/screen4.png)
-![Apptit clientes](demo/screen5.png)
-![Apptit finalizar](demo/screen6.png)
-![Apptit voltar](demo/screen7.png)
+![Apptit Demo](demo/apptit.gif){:height="700px" width="400px"}
+![Apptit login](demo/screen1.png){:height="700px" width="400px"}
+![Apptit dashboard](demo/screen2.png){:height="700px" width="400px"}
+![Apptit novo_pedido](demo/screen3.png){:height="700px" width="400px"}
+![Apptit informacoes](demo/screen4.png){:height="700px" width="400px"}
+![Apptit clientes](demo/screen5.png){:height="700px" width="400px"}
+![Apptit finalizar](demo/screen6.png){:height="700px" width="400px"}
+![Apptit voltar](demo/screen7.png){:height="700px" width="400px"}
 
 
 ## Instalação
