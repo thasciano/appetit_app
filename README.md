@@ -4,14 +4,14 @@ Uma plataforma de solicitação de pedidos em um café fictício.
 
 ## Demonstração
 
-![Apptit Demo]<img src="https://github.com/thasciano/appetit_app/blob/master/demo/apptit.gif" width="100px" />
-![Apptit login](demo/screen1.png)
-![Apptit dashboard](demo/screen2.png)
-![Apptit novo_pedido](demo/screen3.png)
-![Apptit informacoes](demo/screen4.png)
-![Apptit clientes](demo/screen5.png)
-![Apptit finalizar](demo/screen6.png)
-![Apptit voltar](demo/screen7.png)
+<img src="https://github.com/thasciano/appetit_app/blob/master/demo/apptit.gif" width="200px" />
+<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen1.png" width="200px" />
+<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen2.png" width="200px" />
+<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen3.png" width="200px" />
+<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen4.png" width="200px" />
+<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen5.png" width="200px" />
+<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen6.png" width="200px" />
+<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen7.png" width="200px" />
 
 
 ## Instalação
