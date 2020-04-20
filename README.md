@@ -2,6 +2,18 @@
 
 Uma plataforma de solicitação de pedidos em um café fictício.
 
+## Demonstração
+
+![Apptit Demo](demo/apptit.gif)
+![Apptit login](demo/screen1.png)
+![Apptit dashboard](demo/screen2.png)
+![Apptit novo_pedido](demo/screen3.png)
+![Apptit informacoes](demo/screen4.png)
+![Apptit clientes](demo/screen5.png)
+![Apptit finalizar](demo/screen6.png)
+![Apptit voltar](demo/screen7.png)
+
+
 ## Instalação
 
 * [Install Flutter](https://flutter.dev/get-started/)
