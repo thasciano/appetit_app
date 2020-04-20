@@ -3,16 +3,16 @@
 Uma plataforma de solicitação de pedidos em um café fictício.
 
 ## Demonstração
-
-<img src="https://github.com/thasciano/appetit_app/blob/master/demo/apptit.gif" width="200px" />
-<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen1.png" width="200px" />
-<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen2.png" width="200px" />
-<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen3.png" width="200px" />
-<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen4.png" width="200px" />
-<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen5.png" width="200px" />
-<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen6.png" width="200px" />
-<img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen7.png" width="200px" />
-
+<p align="center">
+   <img src="https://github.com/thasciano/appetit_app/blob/master/demo/apptit.gif" width="200px" />
+   <img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen1.png" width="200px" />
+   <img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen2.png" width="200px" />
+   <img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen3.png" width="200px" />
+   <img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen4.png" width="200px" />
+   <img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen5.png" width="200px" />
+   <img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen6.png" width="200px" />
+   <img src="https://github.com/thasciano/appetit_app/blob/master/demo/screen7.png" width="200px" />
+</p>
 
 ## Instalação
 
